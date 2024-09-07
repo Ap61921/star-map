@@ -1,0 +1,17 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <title></title>
+  <meta name="Generator" content="Cocoa HTML Writer">
+  <meta name="CocoaVersion" content="2487.6">
+  <style type="text/css">
+    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Times; -webkit-text-stroke: #000000}
+    span.s1 {font-kerning: none}
+  </style>
+</head>
+<body>
+<p class="p1"><span class="s1">&lt;!DOCTYPE html&gt; &lt;html lang="en"&gt; &lt;head&gt; &lt;meta charset="UTF-8"&gt; &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt; &lt;title&gt;Interactive Star Map&lt;/title&gt; &lt;style&gt; body { margin: 0; } canvas { display: block; } &lt;/style&gt; &lt;/head&gt; &lt;body&gt; &lt;div id="info" style="position: absolute; top: 10px; left: 10px; color: white;"&gt;&lt;/div&gt; &lt;script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"&gt;&lt;/script&gt; &lt;script&gt; // Scene setup const scene = new THREE.Scene(); const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000); const renderer = new THREE.WebGLRenderer(); renderer.setSize(window.innerWidth, window.innerHeight); document.body.appendChild(renderer.domElement); // Sphere geometry for star field (sky dome) const geometry = new THREE.SphereGeometry(500, 60, 40); const material = new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load('path_to_star_map.jpg'), side: THREE.BackSide }); const skyDome = new THREE.Mesh(geometry, material); scene.add(skyDome); camera.position.z = 1; // Add stars/constellations (placeholders for clickable objects) const starGeometry = new THREE.SphereGeometry(1, 32, 32); const starMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff }); const stars = []; // Example constellation with clickable stars for (let i = 0; i &lt; 10; i++) { const star = new THREE.Mesh(starGeometry, starMaterial); star.position.set(Math.random() * 100 - 50, Math.random() * 100 - 50, Math.random() * 100 - 50); star.userData = { constellation: `Star ${i}` }; // Custom data for each star scene.add(star); stars.push(star); } // Raycaster for detecting star clicks const raycaster = new THREE.Raycaster(); const mouse = new THREE.Vector2(); function onMouseClick(event) { mouse.x = (event.clientX / window.innerWidth) * 2 - 1; mouse.y = -(event.clientY / window.innerHeight) * 2 + 1; raycaster.setFromCamera(mouse, camera); const intersects = raycaster.intersectObjects(stars); if (intersects.length &gt; 0) { const star = intersects[0].object; const info = document.getElementById('info'); info.innerHTML = `You clicked on ${star.userData.constellation}`; window.open(`constellation_info_page.html?name=${star.userData.constellation}`, '_blank'); } } window.addEventListener('click', onMouseClick, false); function animate() { requestAnimationFrame(animate); renderer.render(scene, camera); } animate(); &lt;/script&gt; &lt;/body&gt; &lt;/html&gt;</span></p>
+</body>
+</html>
